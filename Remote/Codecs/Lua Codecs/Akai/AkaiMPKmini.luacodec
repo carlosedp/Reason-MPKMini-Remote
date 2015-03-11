@@ -1,0 +1,18 @@
+version={0,0,1}
+
+
+
+function remote_supported_control_surfaces()
+
+	local surfaces =		{
+
+			{ manufacturer="Akai", model="MPK mini",
+				source="AkaiMPKmini.lua", picture="AkaiMPKmini.png",
+				in_ports={{description="In Port"}}, out_ports={{description="Out Port", optional=true}},
+				has_keyboard=true,
+				setup_info_text="This codec assumes you have the MPK mini programmed with the profile supplied." },
+
+		}	return surfaces
+
+end
+
