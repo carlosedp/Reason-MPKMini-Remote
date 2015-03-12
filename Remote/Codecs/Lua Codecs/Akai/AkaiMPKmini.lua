@@ -73,15 +73,6 @@ function remote_init()
 	}
 	remote.define_items(items)
 
-	g_knob_1 = 1
-	g_knob_2 = 2
-	g_knob_3 = 3
-	g_knob_4 = 4
-	g_knob_5 = 5
-	g_knob_6 = 6
-	g_knob_7 = 7
-	g_knob_8 = 8
-
 	local inputs={
 		{pattern="b? 40 xx", name="Sustain"},
 		{pattern="b? 01 xx", name="Knob 1"},
@@ -98,9 +89,9 @@ function remote_init()
 		{pattern="90 xx 00", name="Keyboard", value="0", note="x", velocity="64"},
 		{pattern="<100x>0 yy zz", name="Keyboard"},
 
-        -- pad CCs are handled by remote_process_midi() below
+		-- pad CCs are handled by remote_process_midi() below
 
-        -- pad Program Change
+		-- pad Program Change
 		{pattern="C? 00", name="Prog Change 1", value="1"},
 		{pattern="C? 01", name="Prog Change 2", value="1"},
 		{pattern="C? 02", name="Prog Change 3", value="1"},
@@ -121,11 +112,16 @@ function remote_init()
 	remote.define_auto_inputs(inputs)
 end
 
-gNumberOfAnalogs = 8 --"Analogs" indicates non-encoder analog controls and refers to both knobs and sliders on the nanoKONTROL
-gAnalogCCLookup = { --converts CC numbers to slider/knob numbers
+--"Analogs" indicates non-encoder analog controls and refers to both knobs and sliders on the nanoKONTROL
+gNumberOfAnalogs = 8
+
+--converts CC numbers to slider/knob numbers
+gAnalogCCLookup = {
 	[1]=1,[2]=2,[3]=3,[4]=4,[5]=5,[6]=6,[7]=7,[8]=8 --Knobs 1-8
-	}
+}
+
 gAnalogPhysicalState, gAnalogMachineState, gAnalogMismatch, gLastAnalogMoveTime, gSentValueSettleTime = {}, {}, {}, {}, {}
+
 for i = 1, gNumberOfAnalogs do --set up slider/knob tracking arrays
 	gAnalogPhysicalState[i] = 0 --stores current position/value of control on hardware
 	gAnalogMachineState[i] = 0 --stores value of connected software item
@@ -133,8 +129,9 @@ for i = 1, gNumberOfAnalogs do --set up slider/knob tracking arrays
 	gLastAnalogMoveTime[i] = 0 --stores timestamp of last time knob/slider was moved on hardware
 	gSentValueSettleTime[i] = 250 --number of milliseconds to wait for a sent slider or knob value to be echoed back before reevaluating synchronization
 end
-gStartupLiveband = 3 --acceptable difference between the first reported value from a control and the machine state for the 2 to be considered synchronized
 
+--acceptable difference between the first reported value from a control and the machine state for the 2 to be considered synchronized
+gStartupLiveband = 3
 
 function remote_process_midi(event) --manual handling of incoming values sent by controller
 	--Analog Messages
