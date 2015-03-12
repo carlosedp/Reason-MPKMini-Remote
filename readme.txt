@@ -21,13 +21,13 @@ Prog Change - turn on PROG CHANGE and each pad will generate push-button events.
 
 |---------|     |---------|     |---------|     |---------|
 |  Pad 5  |     |  Pad 6  |     |  Pad 7  |     |  Pad 8  |
-|  CC#24  |     |  CC#25  |     |  CC#26  |     |  CC#27  |
+|  CC#69  |     |  CC#70  |     |  CC#71  |     |  CC#72  |
 | TapTempo|     |  OvrDub |     |  TrkUp  |     |  TrkDn  |
 |_________|     |_________|     |_________|     |_________|
 
 |---------|     |---------|     |---------|     |---------|
 |  Pad 1  |     |  Pad 2  |     |  Pad 3  |     |  Pad 4  |
-|  CC#20  |     |  CC#21  |     |  CC#22  |     |  CC#23  |
+|  CC#65  |     |  CC#66  |     |  CC#67  |     |  CC#68  |
 |  Play   |     |  Stop   |     |  Record |     |  Loop   |
 |_________|     |_________|     |_________|     |_________|
 
