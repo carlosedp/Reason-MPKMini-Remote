@@ -1,5 +1,10 @@
 -- Akai MPK mini Lua Codec
 -- David Antliff, Pitchblende Ltd., February 2013
+-- Carlos Eduardo, March 2015
+-- Version 0.0.5
+--  - Added soft takeover mode based on novation implementation
+-- Version 0.0.4
+--  - Changed CC functions
 -- Version 0.0.3
 --  - add Sustain support, shift pad CCs up from 64 to 65
 -- Version 0.0.2
@@ -67,6 +72,15 @@ function remote_init()
 	}
 	remote.define_items(items)
 
+	g_knob_1 = 1
+	g_knob_2 = 2
+	g_knob_3 = 3
+	g_knob_4 = 4
+	g_knob_5 = 5
+	g_knob_6 = 6
+	g_knob_7 = 7
+	g_knob_8 = 8
+
 	local inputs={
         {pattern="b? 40 xx", name="Sustain"},
 		{pattern="b? 01 xx", name="Knob 1"},
@@ -106,6 +120,152 @@ function remote_init()
 	}
 	remote.define_auto_inputs(inputs)
 end
+
+g_knob_1_last_value = 0
+g_knob_2_last_value = 0
+g_knob_3_last_value = 0
+g_knob_4_last_value = 0
+g_knob_5_last_value = 0
+g_knob_6_last_value = 0
+g_knob_7_last_value = 0
+g_knob_8_last_value = 0
+
+g_knob_1_current_value = 0
+g_knob_2_current_value = 0
+g_knob_3_current_value = 0
+g_knob_4_current_value = 0
+g_knob_5_current_value = 0
+g_knob_6_current_value = 0
+g_knob_7_current_value = 0
+g_knob_8_current_value = 0
+
+g_mute_knob_1 = false
+g_mute_knob_2 = false
+g_mute_knob_3 = false
+g_mute_knob_4 = false
+g_mute_knob_5 = false
+g_mute_knob_6 = false
+g_mute_knob_7 = false
+g_mute_knob_8 = false
+
+g_input_is_positive = false
+g_input_is_negative = false
+g_last_input_time = 0
+g_last_input_item = 0
+
+local function mute_control(data_value, knob_current_value)
+
+-- check whether the control has passed through the parameter value point
+
+	if data_value < knob_current_value then
+
+		if g_input_is_positive then
+			g_input_is_positive = false
+			return false
+		else
+			g_input_is_negative = true
+			return true
+		end
+
+	elseif data_value > knob_current_value then
+
+		if g_input_is_negative then
+			g_input_is_negative = false
+			return false
+		else
+			g_input_is_positive = true
+			return true
+		end
+
+	else
+
+		g_input_is_positive = false
+		g_input_is_negative = false
+
+	end
+end
+
+function remote_on_auto_input(item_index)
+
+
+	g_last_input_item=item_index
+
+	g_last_input_time=remote.get_time_ms()
+
+	if item_index == g_knob_1 then g_knob_1_last_value = remote.get_item_value(g_knob_1)
+	elseif item_index == g_knob_2 then g_knob_2_last_value = remote.get_item_value(g_knob_2)
+	elseif item_index == g_knob_3 then g_knob_3_last_value = remote.get_item_value(g_knob_3)
+	elseif item_index == g_knob_4 then g_knob_4_last_value = remote.get_item_value(g_knob_4)
+	elseif item_index == g_knob_5 then g_knob_5_last_value = remote.get_item_value(g_knob_5)
+	elseif item_index == g_knob_6 then g_knob_6_last_value = remote.get_item_value(g_knob_6)
+	elseif item_index == g_knob_7 then g_knob_7_last_value = remote.get_item_value(g_knob_7)
+	elseif item_index == g_knob_8 then g_knob_8_last_value = remote.get_item_value(g_knob_8)
+	end
+
+end
+
+function remote_set_state(changed_items)
+
+	for i,item_index in ipairs(changed_items) do
+
+ 		if item_index == g_knob_1 then	g_knob_1_current_value = remote.get_item_value(g_knob_1)
+		elseif item_index == g_knob_2 then	g_knob_2_current_value = remote.get_item_value(g_knob_2)
+		elseif item_index == g_knob_3 then	g_knob_3_current_value = remote.get_item_value(g_knob_3)
+		elseif item_index == g_knob_4 then	g_knob_4_current_value = remote.get_item_value(g_knob_4)
+		elseif item_index == g_knob_5 then	g_knob_5_current_value = remote.get_item_value(g_knob_5)
+		elseif item_index == g_knob_6 then	g_knob_6_current_value = remote.get_item_value(g_knob_6)
+		elseif item_index == g_knob_7 then	g_knob_7_current_value = remote.get_item_value(g_knob_7)
+		elseif item_index == g_knob_8 then	g_knob_8_current_value = remote.get_item_value(g_knob_8)
+		end
+
+		if item_index == g_device_name or item_index == g_patch_name then
+
+			g_knob_1_current_value = remote.get_item_value(g_knob_1)
+			if g_knob_1_last_value ~= g_knob_1_current_value then
+				g_mute_knob_1 = true
+			end
+
+			g_knob_2_current_value = remote.get_item_value(g_knob_2)
+			if g_knob_2_last_value ~= g_knob_2_current_value then
+				g_mute_knob_2 = true
+			end
+
+			g_knob_3_current_value = remote.get_item_value(g_knob_3)
+			if g_knob_3_last_value ~= g_knob_3_current_value then
+				g_mute_knob_3 = true
+			end
+
+			g_knob_4_current_value = remote.get_item_value(g_knob_4)
+			if g_knob_4_last_value ~= g_knob_4_current_value then
+				g_mute_knob_4 = true
+			end
+
+			g_knob_5_current_value = remote.get_item_value(g_knob_5)
+			if g_knob_5_last_value ~= g_knob_5_current_value then
+				g_mute_knob_5 = true
+			end
+
+			g_knob_6_current_value = remote.get_item_value(g_knob_6)
+			if g_knob_6_last_value ~= g_knob_6_current_value then
+				g_mute_knob_6 = true
+			end
+
+			g_knob_7_current_value = remote.get_item_value(g_knob_7)
+			if g_knob_7_last_value ~= g_knob_7_current_value then
+				g_mute_knob_7 = true
+			end
+
+			g_knob_8_current_value = remote.get_item_value(g_knob_8)
+			if g_knob_8_last_value ~= g_knob_8_current_value then
+				g_mute_knob_8 = true
+			end
+
+		end
+	end
+
+end
+
+
 
 --[[
 function trace_event(event)
@@ -155,4 +315,3 @@ function remote_probe()
     response=controlResponse
   }
 end
-
