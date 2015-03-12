@@ -679,6 +679,33 @@ Map	Pad Button 12		HF Bell
 
 // fx sends
 
+Scope	Propellerheads	Reason Master Section
+//	Control Surface Item	Key	Remotable Item	Scale	Mode
+
+// 1-8 controls eight channels
+
+Map	Pad Button 1		Previous 8 Remote Base Channel
+Map	Pad Button 2		Next 8 Remote Base Channel
+
+Map	Knob 1		Channel 1 Level
+Map	Knob 2		Channel 2 Level
+Map	Knob 3		Channel 3 Level
+Map	Knob 4		Channel 4 Level
+Map	Knob 5		Channel 5 Level
+Map	Knob 6		Channel 6 Level
+Map	Knob 7		Channel 7 Level
+Map	Knob 8		Channel 8 Level
+
+// 9-16 controls Master Level, Comp and Insert FX
+
+Map	Pad Button 12		Bypass Insert FX
+Map	Pad Button 13		Button 1
+Map	Pad Button 14		Button 2
+Map	Pad Button 15		Button 3
+Map	Pad Button 16		Button 4
+
+// 17-24 controls FX returns
+
 
 Scope	Propellerheads	Record Master Section
 //	Control Surface Item	Key	Remotable Item	Scale	Mode
@@ -706,5 +733,61 @@ Map	Pad Button 15		Button 3
 Map	Pad Button 16		Button 4
 
 // 17-24 controls FX returns
+
+Scope	Propellerheads	Alligator
+
+//	Control Surface Item	Key	Remotable Item	Scale	Mode
+
+Map	Pad Button 7		Select Previous Patch
+Map	Pad Button 8		Select Next Patch
+
+Map	Knob 1		Pattern
+Map	Knob 2		High Pass Resonance
+Map	Knob 3		Band Pass Resonance
+Map	Knob 4		Low Pass Resonance
+Map	Knob 5		High Pass Pan
+Map	Knob 6		Band Pass Pan
+Map	Knob 7		Low Pass Pan
+Map	Knob 8		Dry Pan
+
+Map	Pad Button 1		Pattern Enable
+Map	Pad Button 2		Shuffle
+
+Scope	Propellerheads	Pulveriser
+
+//	Control Surface Item	Key	Remotable Item	Scale	Mode
+Map	Pad Button 7		Select Previous Patch
+Map	Pad Button 8		Select Next Patch
+
+Map	Knob 1		Release
+Map	Knob 2		Tone
+Map	Knob 3		Filter Mode
+Map	Knob 4		Tremor to Frequency
+Map	Knob 5		Follower to Rate
+Map	Knob 6		Follower to Frequency
+Map	Knob 7		Tremor Waveform
+Map	Knob 8		Blend
+
+Map	Pad Button 1		Sync
+Map	Pad Button 2		Tremor Spread
+
+Scope	Propellerheads	The Echo
+
+//	Control Surface Item	Key	Remotable Item	Scale	Mode
+
+Map	Pad Button 7		Select Previous Patch
+Map	Pad Button 8		Select Next Patch
+
+Map	Knob 1		Input Mode
+Map	Knob 2		Ping-Pong Pan
+Map	Knob 3		Right Ch Feedback Offset
+Map	Knob 4		Drive Type
+Map	Knob 5		Envelope
+Map	Knob 6		LFO Rate
+Map	Knob 7		LFO Amount
+Map	Knob 8		Dry/Wet Balance
+
+Map	Pad Button 1		Diffuse On
+Map	Pad Button 2		Filter On
 
 // EOF
