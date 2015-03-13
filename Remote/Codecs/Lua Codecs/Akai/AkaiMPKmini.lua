@@ -21,251 +21,188 @@ g_num_padbuttons = 16
 -- this is the CC # for the first pad button. This codec assumes the nth button generates this + n - 1.
 g_first_padbutton_cc = 65
 
+--position of first analog control in the items table
+gFirstAnalogIndex = 3
+
 function remote_init()
 	local items={
 		{name="Keyboard", input="keyboard"},
-        {name="Sustain", input="value", min=0, max=127},
+		{name="Sustain", input="value", output="value", min=0, max=127},
+		{name="Knob 1", input="value", output="value", min=0, max=127},
+		{name="Knob 2", input="value", output="value", min=0, max=127},
+		{name="Knob 3", input="value", output="value", min=0, max=127},
+		{name="Knob 4", input="value", output="value", min=0, max=127},
+		{name="Knob 5", input="value", output="value", min=0, max=127},
+		{name="Knob 6", input="value", output="value", min=0, max=127},
+		{name="Knob 7", input="value", output="value", min=0, max=127},
+		{name="Knob 8", input="value", output="value", min=0, max=127},
+		-- this item must be at position g_first_padbutton_index (1-based)
+		{name="Pad Button 1", input="button"},
+		{name="Pad Button 2", input="button"},
+		{name="Pad Button 3", input="button"},
+		{name="Pad Button 4", input="button"},
+		{name="Pad Button 5", input="button"},
+		{name="Pad Button 6", input="button"},
+		{name="Pad Button 7", input="button"},
+		{name="Pad Button 8", input="button"},
+		{name="Pad Button 9", input="button"},
+		{name="Pad Button 10", input="button"},
+		{name="Pad Button 11", input="button"},
+		{name="Pad Button 12", input="button"},
+		{name="Pad Button 13", input="button"},
+		{name="Pad Button 14", input="button"},
+		{name="Pad Button 15", input="button"},
+		{name="Pad Button 16", input="button"},
 
-		{name="Knob 1", input="value", min=0, max=127},
-		{name="Knob 2", input="value", min=0, max=127},
-		{name="Knob 3", input="value", min=0, max=127},
-		{name="Knob 4", input="value", min=0, max=127},
-		{name="Knob 5", input="value", min=0, max=127},
-		{name="Knob 6", input="value", min=0, max=127},
-		{name="Knob 7", input="value", min=0, max=127},
-		{name="Knob 8", input="value", min=0, max=127},
-
-        -- this item must be at position g_first_padbutton_index (1-based)
-        {name="Pad Button 1", input="button"},
-        {name="Pad Button 2", input="button"},
-        {name="Pad Button 3", input="button"},
-        {name="Pad Button 4", input="button"},
-        {name="Pad Button 5", input="button"},
-        {name="Pad Button 6", input="button"},
-        {name="Pad Button 7", input="button"},
-        {name="Pad Button 8", input="button"},
-        {name="Pad Button 9", input="button"},
-        {name="Pad Button 10", input="button"},
-        {name="Pad Button 11", input="button"},
-        {name="Pad Button 12", input="button"},
-        {name="Pad Button 13", input="button"},
-        {name="Pad Button 14", input="button"},
-        {name="Pad Button 15", input="button"},
-        {name="Pad Button 16", input="button"},
-
-        {name="Prog Change 1", input="button"},
-        {name="Prog Change 2", input="button"},
-        {name="Prog Change 3", input="button"},
-        {name="Prog Change 4", input="button"},
-        {name="Prog Change 5", input="button"},
-        {name="Prog Change 6", input="button"},
-        {name="Prog Change 7", input="button"},
-        {name="Prog Change 8", input="button"},
-        {name="Prog Change 9", input="button"},
-        {name="Prog Change 10", input="button"},
-        {name="Prog Change 11", input="button"},
-        {name="Prog Change 12", input="button"},
-        {name="Prog Change 13", input="button"},
-        {name="Prog Change 14", input="button"},
-        {name="Prog Change 15", input="button"},
-        {name="Prog Change 16", input="button"},
+		{name="Prog Change 1", input="button"},
+		{name="Prog Change 2", input="button"},
+		{name="Prog Change 3", input="button"},
+		{name="Prog Change 4", input="button"},
+		{name="Prog Change 5", input="button"},
+		{name="Prog Change 6", input="button"},
+		{name="Prog Change 7", input="button"},
+		{name="Prog Change 8", input="button"},
+		{name="Prog Change 9", input="button"},
+		{name="Prog Change 10", input="button"},
+		{name="Prog Change 11", input="button"},
+		{name="Prog Change 12", input="button"},
+		{name="Prog Change 13", input="button"},
+		{name="Prog Change 14", input="button"},
+		{name="Prog Change 15", input="button"},
+		{name="Prog Change 16", input="button"},
 	}
 	remote.define_items(items)
 
-	g_knob_1 = 1
-	g_knob_2 = 2
-	g_knob_3 = 3
-	g_knob_4 = 4
-	g_knob_5 = 5
-	g_knob_6 = 6
-	g_knob_7 = 7
-	g_knob_8 = 8
-
 	local inputs={
-        {pattern="b? 40 xx", name="Sustain"},
-		{pattern="b? 01 xx", name="Knob 1"},
-		{pattern="b? 02 xx", name="Knob 2"},
-		{pattern="b? 03 xx", name="Knob 3"},
-		{pattern="b? 04 xx", name="Knob 4"},
-		{pattern="b? 05 xx", name="Knob 5"},
-		{pattern="b? 06 xx", name="Knob 6"},
-		{pattern="b? 07 xx", name="Knob 7"},
-		{pattern="b? 08 xx", name="Knob 8"},
+		{pattern="b? 40 xx", name="Sustain"},
+		-- {pattern="b? 01 xx", name="Knob 1"},
+		-- {pattern="b? 02 xx", name="Knob 2"},
+		-- {pattern="b? 03 xx", name="Knob 3"},
+		-- {pattern="b? 04 xx", name="Knob 4"},
+		-- {pattern="b? 05 xx", name="Knob 5"},
+		-- {pattern="b? 06 xx", name="Knob 6"},
+		-- {pattern="b? 07 xx", name="Knob 7"},
+		-- {pattern="b? 08 xx", name="Knob 8"},
 
 		{pattern="80 xx yy", name="Keyboard", value="0", note="x", velocity="64"},
 
 		{pattern="90 xx 00", name="Keyboard", value="0", note="x", velocity="64"},
 		{pattern="<100x>0 yy zz", name="Keyboard"},
 
-        -- pad CCs are handled by remote_process_midi() below
+		-- pad CCs are handled by remote_process_midi() below
 
-        -- pad Program Change
-        {pattern="C? 00", name="Prog Change 1", value="1"},
-        {pattern="C? 01", name="Prog Change 2", value="1"},
-        {pattern="C? 02", name="Prog Change 3", value="1"},
-        {pattern="C? 03", name="Prog Change 4", value="1"},
-        {pattern="C? 04", name="Prog Change 5", value="1"},
-        {pattern="C? 05", name="Prog Change 6", value="1"},
-        {pattern="C? 06", name="Prog Change 7", value="1"},
-        {pattern="C? 07", name="Prog Change 8", value="1"},
-        {pattern="C? 08", name="Prog Change 9", value="1"},
-        {pattern="C? 09", name="Prog Change 10", value="1"},
-        {pattern="C? 0a", name="Prog Change 11", value="1"},
-        {pattern="C? 0b", name="Prog Change 12", value="1"},
-        {pattern="C? 0c", name="Prog Change 13", value="1"},
-        {pattern="C? 0d", name="Prog Change 14", value="1"},
-        {pattern="C? 0e", name="Prog Change 15", value="1"},
-        {pattern="C? 0f", name="Prog Change 16", value="1"},
-
+		-- pad Program Change
+		{pattern="C? 00", name="Prog Change 1", value="1"},
+		{pattern="C? 01", name="Prog Change 2", value="1"},
+		{pattern="C? 02", name="Prog Change 3", value="1"},
+		{pattern="C? 03", name="Prog Change 4", value="1"},
+		{pattern="C? 04", name="Prog Change 5", value="1"},
+		{pattern="C? 05", name="Prog Change 6", value="1"},
+		{pattern="C? 06", name="Prog Change 7", value="1"},
+		{pattern="C? 07", name="Prog Change 8", value="1"},
+		{pattern="C? 08", name="Prog Change 9", value="1"},
+		{pattern="C? 09", name="Prog Change 10", value="1"},
+		{pattern="C? 0a", name="Prog Change 11", value="1"},
+		{pattern="C? 0b", name="Prog Change 12", value="1"},
+		{pattern="C? 0c", name="Prog Change 13", value="1"},
+		{pattern="C? 0d", name="Prog Change 14", value="1"},
+		{pattern="C? 0e", name="Prog Change 15", value="1"},
+		{pattern="C? 0f", name="Prog Change 16", value="1"},
 	}
 	remote.define_auto_inputs(inputs)
 end
 
-g_knob_1_last_value = 0
-g_knob_2_last_value = 0
-g_knob_3_last_value = 0
-g_knob_4_last_value = 0
-g_knob_5_last_value = 0
-g_knob_6_last_value = 0
-g_knob_7_last_value = 0
-g_knob_8_last_value = 0
+--"Analogs" indicates non-encoder analog controls and refers to both knobs and sliders on the nanoKONTROL
+gNumberOfAnalogs = 8
 
-g_knob_1_current_value = 0
-g_knob_2_current_value = 0
-g_knob_3_current_value = 0
-g_knob_4_current_value = 0
-g_knob_5_current_value = 0
-g_knob_6_current_value = 0
-g_knob_7_current_value = 0
-g_knob_8_current_value = 0
+--converts CC numbers to slider/knob numbers
+gAnalogCCLookup = {
+	[1]=1,[2]=2,[3]=3,[4]=4,[5]=5,[6]=6,[7]=7,[8]=8 --Knobs 1-8
+}
 
-g_mute_knob_1 = false
-g_mute_knob_2 = false
-g_mute_knob_3 = false
-g_mute_knob_4 = false
-g_mute_knob_5 = false
-g_mute_knob_6 = false
-g_mute_knob_7 = false
-g_mute_knob_8 = false
+gAnalogPhysicalState, gAnalogMachineState, gAnalogMismatch, gLastAnalogMoveTime, gSentValueSettleTime = {}, {}, {}, {}, {}
 
-g_input_is_positive = false
-g_input_is_negative = false
-g_last_input_time = 0
-g_last_input_item = 0
-
-local function mute_control(data_value, knob_current_value)
-
--- check whether the control has passed through the parameter value point
-
-	if data_value < knob_current_value then
-
-		if g_input_is_positive then
-			g_input_is_positive = false
-			return false
-		else
-			g_input_is_negative = true
-			return true
-		end
-
-	elseif data_value > knob_current_value then
-
-		if g_input_is_negative then
-			g_input_is_negative = false
-			return false
-		else
-			g_input_is_positive = true
-			return true
-		end
-
-	else
-
-		g_input_is_positive = false
-		g_input_is_negative = false
-
-	end
+for i = 1, gNumberOfAnalogs do --set up slider/knob tracking arrays
+	gAnalogPhysicalState[i] = 0 --stores current position/value of control on hardware
+	gAnalogMachineState[i] = 0 --stores value of connected software item
+	gAnalogMismatch[i] = nil --difference between physical state of control and software value (positive numbers indicate physical value is greater, nil indicates mismatch assumption due to unknown physical state at startup)
+	gLastAnalogMoveTime[i] = 0 --stores timestamp of last time knob/slider was moved on hardware
+	gSentValueSettleTime[i] = 250 --number of milliseconds to wait for a sent slider or knob value to be echoed back before reevaluating synchronization
 end
 
-function remote_on_auto_input(item_index)
+--acceptable difference between the first reported value from a control and the machine state for the 2 to be considered synchronized
+gStartupLiveband = 3
 
 
-	g_last_input_item=item_index
+function remote_process_midi(event) --manual handling of incoming values sent by controller
+	--Analog Messages
+	ret=remote.match_midi("B0 yy xx", event) --check for slider/knob messages
+	if ret~=nil then
+		-- only catch button events
+		-- if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
+		-- 	local val = (ret.x ~= 0) and 1 or 0
+		-- 	-- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
+		-- 	local msg = {
+		-- 		time_stamp = event.time_stamp,
+		-- 		item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
+		-- 		value = val
+		-- 	}
+		-- 	remote.handle_input(msg)
+		-- 	return true
+		-- end
+		local AnalogNum = gAnalogCCLookup[ret.y] --try to get the analog number that corresponds to the received Continuous Controller message
+		if AnalogNum == nil then --if message isn't from an analog
+			return false --pass it on to auto input handling
+		else
+			gAnalogPhysicalState[AnalogNum] = ret.x --update the stored physical state to the incoming value
+			local AllowChange = true --we'll send the incoming value to the host unless we find a reason not to
 
-	g_last_input_time=remote.get_time_ms()
+			if gAnalogMismatch[AnalogNum] ~= 0 then --assess conditions if controller and software values are mismatched
+				if gAnalogMismatch[AnalogNum] == nil then --startup condition: analog hasn't reported in yet
+					gAnalogMismatch[AnalogNum] = gAnalogPhysicalState[AnalogNum] - gAnalogMachineState[AnalogNum] --calculate and store how physical and machine states relate to each other
+					if math.abs(gAnalogMismatch[AnalogNum]) > gStartupLiveband then --if the physical value is too far from the machine value
+						AllowChange = false --don't send it to Reason
+					end
+				elseif gAnalogMismatch[AnalogNum] > 0 and gAnalogPhysicalState[AnalogNum] - gAnalogMachineState[AnalogNum] > 0 then --if physical state of analog was and still is above virtual value
+					AllowChange = false --don't send the new value to Reason because it's out of sync
+				elseif gAnalogMismatch[AnalogNum] < 0 and gAnalogPhysicalState[AnalogNum] - gAnalogMachineState[AnalogNum] < 0 then --if physical state of analog was and still is below virtual value
+					AllowChange = false --don't send the updated value
+				end
+			end
 
-	if item_index == g_knob_1 then g_knob_1_last_value = remote.get_item_value(g_knob_1)
-	elseif item_index == g_knob_2 then g_knob_2_last_value = remote.get_item_value(g_knob_2)
-	elseif item_index == g_knob_3 then g_knob_3_last_value = remote.get_item_value(g_knob_3)
-	elseif item_index == g_knob_4 then g_knob_4_last_value = remote.get_item_value(g_knob_4)
-	elseif item_index == g_knob_5 then g_knob_5_last_value = remote.get_item_value(g_knob_5)
-	elseif item_index == g_knob_6 then g_knob_6_last_value = remote.get_item_value(g_knob_6)
-	elseif item_index == g_knob_7 then g_knob_7_last_value = remote.get_item_value(g_knob_7)
-	elseif item_index == g_knob_8 then g_knob_8_last_value = remote.get_item_value(g_knob_8)
+			if AllowChange then --if the incoming change should be sent to Reason
+				remote.handle_input({ time_stamp=event.time_stamp, item=gFirstAnalogIndex + AnalogNum - 1, value=ret.x }) --send the new analog value to Reason
+				gLastAnalogMoveTime[AnalogNum] = remote.get_time_ms() --store the time this change was sent
+				gAnalogMismatch[AnalogNum] = 0 --and set the flag to show the controller and Reason are in sync
+			end
+			return true --input has been handled
+		end
 	end
-
+--   return false
 end
 
-function remote_set_state(changed_items)
-
+function remote_set_state(changed_items) --handle incoming changes sent by Reason
 	for i,item_index in ipairs(changed_items) do
-
- 		if item_index == g_knob_1 then	g_knob_1_current_value = remote.get_item_value(g_knob_1)
-		elseif item_index == g_knob_2 then	g_knob_2_current_value = remote.get_item_value(g_knob_2)
-		elseif item_index == g_knob_3 then	g_knob_3_current_value = remote.get_item_value(g_knob_3)
-		elseif item_index == g_knob_4 then	g_knob_4_current_value = remote.get_item_value(g_knob_4)
-		elseif item_index == g_knob_5 then	g_knob_5_current_value = remote.get_item_value(g_knob_5)
-		elseif item_index == g_knob_6 then	g_knob_6_current_value = remote.get_item_value(g_knob_6)
-		elseif item_index == g_knob_7 then	g_knob_7_current_value = remote.get_item_value(g_knob_7)
-		elseif item_index == g_knob_8 then	g_knob_8_current_value = remote.get_item_value(g_knob_8)
-		end
-
-		if item_index == g_device_name or item_index == g_patch_name then
-
-			g_knob_1_current_value = remote.get_item_value(g_knob_1)
-			if g_knob_1_last_value ~= g_knob_1_current_value then
-				g_mute_knob_1 = true
+		local AnalogNum = item_index - gFirstAnalogIndex + 1 --calculate which analog (if any) the index of the changed item indicates
+		if AnalogNum >= 1 and AnalogNum <= gNumberOfAnalogs then --if change belongs to an analog control
+			gAnalogMachineState[AnalogNum] = remote.get_item_value(item_index) --update the machine state for the analog
+			if gAnalogMismatch[AnalogNum] ~= nil then --if we know the analog's physical state
+				if (remote.get_time_ms() - gLastAnalogMoveTime[AnalogNum]) > gSentValueSettleTime[AnalogNum] then --and the last value it sent to Reason happened outside the settle time
+					gAnalogMismatch[AnalogNum] = gAnalogPhysicalState[AnalogNum] - gAnalogMachineState[AnalogNum] --recalculate and store how physical and machine states relate to each other
+				end
 			end
-
-			g_knob_2_current_value = remote.get_item_value(g_knob_2)
-			if g_knob_2_last_value ~= g_knob_2_current_value then
-				g_mute_knob_2 = true
-			end
-
-			g_knob_3_current_value = remote.get_item_value(g_knob_3)
-			if g_knob_3_last_value ~= g_knob_3_current_value then
-				g_mute_knob_3 = true
-			end
-
-			g_knob_4_current_value = remote.get_item_value(g_knob_4)
-			if g_knob_4_last_value ~= g_knob_4_current_value then
-				g_mute_knob_4 = true
-			end
-
-			g_knob_5_current_value = remote.get_item_value(g_knob_5)
-			if g_knob_5_last_value ~= g_knob_5_current_value then
-				g_mute_knob_5 = true
-			end
-
-			g_knob_6_current_value = remote.get_item_value(g_knob_6)
-			if g_knob_6_last_value ~= g_knob_6_current_value then
-				g_mute_knob_6 = true
-			end
-
-			g_knob_7_current_value = remote.get_item_value(g_knob_7)
-			if g_knob_7_last_value ~= g_knob_7_current_value then
-				g_mute_knob_7 = true
-			end
-
-			g_knob_8_current_value = remote.get_item_value(g_knob_8)
-			if g_knob_8_last_value ~= g_knob_8_current_value then
-				g_mute_knob_8 = true
-			end
-
 		end
 	end
-
 end
 
-
+function remote_probe()
+  local controlRequest="F0 7E 7F 06 01 F7"
+  local controlResponse="F0 7E 00 06 02 47 7C 00 19 00 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? F7"
+  return {
+    request=controlRequest,
+    response=controlResponse
+  }
+end
 
 --[[
 function trace_event(event)
@@ -285,33 +222,3 @@ function trace_event(event)
   remote.trace(result)
 end
 ]]--
-
--- catch button-press events but ignore release events
--- designed for 'momentary' buttons, not 'toggle'
-function remote_process_midi(event)
-  ret = remote.match_midi("b? yy xx",event)
-  if ret ~= nil then
-    -- only catch button events
-    if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
-      local val = (ret.x ~= 0) and 1 or 0
-      -- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
-      local msg = {
-        time_stamp = event.time_stamp,
-        item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
-        value = val
-      }
-      remote.handle_input(msg)
-      return true
-    end
-  end
-  return false
-end
-
-function remote_probe()
-  local controlRequest="F0 7E 7F 06 01 F7"
-  local controlResponse="F0 7E 00 06 02 47 7C 00 19 00 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? F7"
-  return {
-    request=controlRequest,
-    response=controlResponse
-  }
-end
