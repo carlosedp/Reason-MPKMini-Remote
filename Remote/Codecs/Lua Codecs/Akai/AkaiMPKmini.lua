@@ -27,15 +27,15 @@ gFirstAnalogIndex = 3
 function remote_init()
 	local items={
 		{name="Keyboard", input="keyboard"},
-		{name="Sustain", input="value", min=0, max=127},
-		{name="Knob 1", input="value", min=0, max=127},
-		{name="Knob 2", input="value", min=0, max=127},
-		{name="Knob 3", input="value", min=0, max=127},
-		{name="Knob 4", input="value", min=0, max=127},
-		{name="Knob 5", input="value", min=0, max=127},
-		{name="Knob 6", input="value", min=0, max=127},
-		{name="Knob 7", input="value", min=0, max=127},
-		{name="Knob 8", input="value", min=0, max=127},
+		{name="Sustain", input="value", output="value", min=0, max=127},
+		{name="Knob 1", input="value", output="value", min=0, max=127},
+		{name="Knob 2", input="value", output="value", min=0, max=127},
+		{name="Knob 3", input="value", output="value", min=0, max=127},
+		{name="Knob 4", input="value", output="value", min=0, max=127},
+		{name="Knob 5", input="value", output="value", min=0, max=127},
+		{name="Knob 6", input="value", output="value", min=0, max=127},
+		{name="Knob 7", input="value", output="value", min=0, max=127},
+		{name="Knob 8", input="value", output="value", min=0, max=127},
 		-- this item must be at position g_first_padbutton_index (1-based)
 		{name="Pad Button 1", input="button"},
 		{name="Pad Button 2", input="button"},
@@ -75,14 +75,14 @@ function remote_init()
 
 	local inputs={
 		{pattern="b? 40 xx", name="Sustain"},
-		{pattern="b? 01 xx", name="Knob 1"},
-		{pattern="b? 02 xx", name="Knob 2"},
-		{pattern="b? 03 xx", name="Knob 3"},
-		{pattern="b? 04 xx", name="Knob 4"},
-		{pattern="b? 05 xx", name="Knob 5"},
-		{pattern="b? 06 xx", name="Knob 6"},
-		{pattern="b? 07 xx", name="Knob 7"},
-		{pattern="b? 08 xx", name="Knob 8"},
+		-- {pattern="b? 01 xx", name="Knob 1"},
+		-- {pattern="b? 02 xx", name="Knob 2"},
+		-- {pattern="b? 03 xx", name="Knob 3"},
+		-- {pattern="b? 04 xx", name="Knob 4"},
+		-- {pattern="b? 05 xx", name="Knob 5"},
+		-- {pattern="b? 06 xx", name="Knob 6"},
+		-- {pattern="b? 07 xx", name="Knob 7"},
+		-- {pattern="b? 08 xx", name="Knob 8"},
 
 		{pattern="80 xx yy", name="Keyboard", value="0", note="x", velocity="64"},
 
@@ -133,22 +133,23 @@ end
 --acceptable difference between the first reported value from a control and the machine state for the 2 to be considered synchronized
 gStartupLiveband = 3
 
+
 function remote_process_midi(event) --manual handling of incoming values sent by controller
 	--Analog Messages
-	ret=remote.match_midi("B? yy xx", event) --check for slider/knob messages
+	ret=remote.match_midi("B0 yy xx", event) --check for slider/knob messages
 	if ret~=nil then
 		-- only catch button events
-		if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
-			local val = (ret.x ~= 0) and 1 or 0
-			-- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
-			local msg = {
-				time_stamp = event.time_stamp,
-				item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
-				value = val
-			}
-			remote.handle_input(msg)
-			return true
-		end
+		-- if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
+		-- 	local val = (ret.x ~= 0) and 1 or 0
+		-- 	-- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
+		-- 	local msg = {
+		-- 		time_stamp = event.time_stamp,
+		-- 		item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
+		-- 		value = val
+		-- 	}
+		-- 	remote.handle_input(msg)
+		-- 	return true
+		-- end
 		local AnalogNum = gAnalogCCLookup[ret.y] --try to get the analog number that corresponds to the received Continuous Controller message
 		if AnalogNum == nil then --if message isn't from an analog
 			return false --pass it on to auto input handling
@@ -177,7 +178,7 @@ function remote_process_midi(event) --manual handling of incoming values sent by
 			return true --input has been handled
 		end
 	end
-	return false
+--   return false
 end
 
 function remote_set_state(changed_items) --handle incoming changes sent by Reason
