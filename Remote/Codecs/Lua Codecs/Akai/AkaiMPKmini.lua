@@ -138,18 +138,19 @@ function remote_process_midi(event) --manual handling of incoming values sent by
 	--Analog Messages
 	ret=remote.match_midi("B0 yy xx", event) --check for slider/knob messages
 	if ret~=nil then
-		-- only catch button events
-		-- if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
-		-- 	local val = (ret.x ~= 0) and 1 or 0
-		-- 	-- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
-		-- 	local msg = {
-		-- 		time_stamp = event.time_stamp,
-		-- 		item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
-		-- 		value = val
-		-- 	}
-		-- 	remote.handle_input(msg)
-		-- 	return true
-		-- end
+		-- Catch pad events
+		if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
+			local val = (ret.x ~= 0) and 1 or 0
+			-- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
+			local msg = {
+				time_stamp = event.time_stamp,
+				item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
+				value = val
+			}
+			remote.handle_input(msg)
+			return true
+		end
+        -- Catch knob events
 		local AnalogNum = gAnalogCCLookup[ret.y] --try to get the analog number that corresponds to the received Continuous Controller message
 		if AnalogNum == nil then --if message isn't from an analog
 			return false --pass it on to auto input handling
@@ -178,7 +179,7 @@ function remote_process_midi(event) --manual handling of incoming values sent by
 			return true --input has been handled
 		end
 	end
---   return false
+   return false
 end
 
 function remote_set_state(changed_items) --handle incoming changes sent by Reason
