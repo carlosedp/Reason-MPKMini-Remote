@@ -1,6 +1,9 @@
 -- Akai MPK mini Lua Codec
 -- David Antliff, Pitchblende Ltd., February 2013
 -- Carlos Eduardo, March 2015
+-- Version 1.0
+--  - 12/05/2015
+--  - Updated script with Akai default CCs and PCs.
 -- Version 0.0.5
 --  - Added soft takeover mode based on novation implementation
 -- Version 0.0.4
@@ -19,7 +22,7 @@ g_first_padbutton_index = 11
 g_num_padbuttons = 16
 
 -- this is the CC # for the first pad button. This codec assumes the nth button generates this + n - 1.
-g_first_padbutton_cc = 65
+g_first_padbutton_cc = 20
 
 --position of first analog control in the items table
 gFirstAnalogIndex = 3
@@ -84,10 +87,10 @@ function remote_init()
 		-- {pattern="b? 07 xx", name="Knob 7"},
 		-- {pattern="b? 08 xx", name="Knob 8"},
 
-		{pattern="80 xx yy", name="Keyboard", value="0", note="x", velocity="64"},
-
-		{pattern="90 xx 00", name="Keyboard", value="0", note="x", velocity="64"},
-		{pattern="<100x>0 yy zz", name="Keyboard"},
+        -- Read notes from keyboard
+		{pattern="8? xx yy", name="Keyboard", value="0", note="x", velocity="64"},
+		{pattern="9? xx 00", name="Keyboard", value="0", note="x", velocity="64"},
+		{pattern="<100x>? yy zz", name="Keyboard"},
 
 		-- pad CCs are handled by remote_process_midi() below
 
@@ -115,9 +118,10 @@ end
 --"Analogs" indicates non-encoder analog controls and refers to both knobs and sliders on the nanoKONTROL
 gNumberOfAnalogs = 8
 
---converts CC numbers to slider/knob numbers
+--converts CC numbers to slider/knob numbers in format: [CC]=Knob
 gAnalogCCLookup = {
-	[1]=1,[2]=2,[3]=3,[4]=4,[5]=5,[6]=6,[7]=7,[8]=8 --Knobs 1-8
+	[17]=1,[18]=2,[19]=3,[20]=4,[13]=5,[14]=6,[15]=7,[16]=8 --Knobs 1-8
+
 }
 
 gAnalogPhysicalState, gAnalogMachineState, gAnalogMismatch, gLastAnalogMoveTime, gSentValueSettleTime = {}, {}, {}, {}, {}
@@ -136,7 +140,7 @@ gStartupLiveband = 3
 
 function remote_process_midi(event) --manual handling of incoming values sent by controller
 	--Analog Messages
-	ret=remote.match_midi("B0 yy xx", event) --check for slider/knob messages
+	ret=remote.match_midi("B? yy xx", event) --check for slider/knob messages
 	if ret~=nil then
 		-- Catch pad events
 		if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then

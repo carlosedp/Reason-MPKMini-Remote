@@ -1,6 +1,6 @@
 # Akai MPK mini Remote Support
 
-Version 1.0,   13 March 2015
+Version 1.0,   12 May 2015
 
 David Antliff, Pitchblende Ltd., <david@pitchblende.co.nz>  
 Carlos Eduardo, SP/Brazil, <carlosedp@gmail.com>  
@@ -27,13 +27,13 @@ Compatible with Reason 8 but may work with previous versions too.
 
     |---------|     |---------|     |---------|     |---------|
     |  Pad 5  |     |  Pad 6  |     |  Pad 7  |     |  Pad 8  |
-    |  CC#69  |     |  CC#70  |     |  CC#71  |     |  CC#72  |
+    |  CC#24  |     |  CC#25  |     |  CC#26  |     |  CC#27  |
     | TapTempo|     |  OvrDub |     |  TrkUp  |     |  TrkDn  |
     |_________|     |_________|     |_________|     |_________|
 
     |---------|     |---------|     |---------|     |---------|
     |  Pad 1  |     |  Pad 2  |     |  Pad 3  |     |  Pad 4  |
-    |  CC#65  |     |  CC#66  |     |  CC#67  |     |  CC#68  |
+    |  CC#20  |     |  CC#21  |     |  CC#22  |     |  CC#23  |
     |  Play   |     |  Stop   |     |  Record |     |  Loop   |
     |_________|     |_________|     |_________|     |_________|
 
@@ -44,13 +44,17 @@ Compatible with Reason 8 but may work with previous versions too.
 
 # Installation
 
-## Part 1 - Load the MPK mini Preset
+## Part 1 - Load the MPK mini Preset (optional, do this if needed)
 
-The provided Preset ensures that your keyboard produces the correct MIDI messages are received by the Remote codec. To install the Preset:
+The script uses Akai factory default values from preset 1. *If you never uploaded any preset this step is not needed*.
+
+The default preset is included in 'Presets' directory so you can load it into any program slot (1-4).
+
+To load the preset follow instructions below:
 
  * Ensure neither Reason nor Record are running - they may interfere with this process.
  * Run the "Akai MPK MINI Editor" (on the CD provided with your controller, or downloadable from Akai's product support page)
- * Click "Load Preset" and load the "Reason.preset" file from the Presets directory that you earlier unzipped.
+ * Click "Load Preset" and load the "Preset1-Chromatic" file from the Presets directory that you earlier unzipped.
  * This will automatically switch the display to Preset Slot 1, but you can upload the new preset to any Slot you wish by clicking the "Preset #" drop-down and select the slot number you want to upload into.
  * Click the "Upload" button, and then click OK:
 
