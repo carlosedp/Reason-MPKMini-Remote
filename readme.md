@@ -2,8 +2,8 @@
 
 Version 1.0,   12 May 2015
 
-David Antliff, Pitchblende Ltd., <david@pitchblende.co.nz>  
-Carlos Eduardo, SP/Brazil, <carlosedp@gmail.com>  
+David Antliff, Pitchblende Ltd., <david@pitchblende.co.nz>
+Carlos Eduardo, SP/Brazil, <carlosedp@gmail.com>
 
 The latest version supports:
 
@@ -15,14 +15,14 @@ Compatible with Reason 8 but may work with previous versions too.
 
 **Prog Change** - turn on PROG CHANGE and each pad will generate push-button events. Currently these are set up to send Transport messages:
 
-1 - Play  
-2 - Stop  
-3 - Record  
-4 - Loop  
-5 - Tap tempo  
-6 - Add overdub  
-7 - change to previous sequencer track  
-8 - change to next sequencer track  
+1 - Play
+2 - Stop
+3 - Record
+4 - Loop
+5 - Tap tempo
+6 - Add overdub
+7 - change to previous sequencer track
+8 - change to next sequencer track
 
 
     |---------|     |---------|     |---------|     |---------|
@@ -92,8 +92,8 @@ The available control items are:
 
 ## For further details please visit:
 
-https://github.com/carlosedp/Reason-MPKMini-Remote  
-http://offwhitenoise.blogspot.com/2011/09/akai-mpk-mini-reason.html  
+https://github.com/carlosedp/Reason-MPKMini-Remote
+http://offwhitenoise.blogspot.com/2011/09/akai-mpk-mini-reason.html
 
 Note: I am not affiliated or associated in any way with Akai
 or Propellerhead. I have created these files myself with the
