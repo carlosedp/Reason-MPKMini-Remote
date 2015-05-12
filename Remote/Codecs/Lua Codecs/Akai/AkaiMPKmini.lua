@@ -140,7 +140,7 @@ gStartupLiveband = 3
 
 function remote_process_midi(event) --manual handling of incoming values sent by controller
 	--Analog Messages
-	ret=remote.match_midi("B? yy xx", event) --check for slider/knob messages
+	ret=remote.match_midi("B9 yy xx", event) --check for knob messages
 	if ret~=nil then
 		-- Catch pad events
 		if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
@@ -154,6 +154,9 @@ function remote_process_midi(event) --manual handling of incoming values sent by
 			remote.handle_input(msg)
 			return true
 		end
+    end
+    ret=remote.match_midi("B0 yy xx", event) --check for slider messages
+    if ret~=nil then
         -- Catch knob events
 		local AnalogNum = gAnalogCCLookup[ret.y] --try to get the analog number that corresponds to the received Continuous Controller message
 		if AnalogNum == nil then --if message isn't from an analog
