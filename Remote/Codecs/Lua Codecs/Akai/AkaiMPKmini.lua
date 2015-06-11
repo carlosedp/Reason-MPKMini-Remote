@@ -1,6 +1,9 @@
 -- Akai MPK mini Lua Codec
 -- David Antliff, Pitchblende Ltd., February 2013
 -- Carlos Eduardo, March 2015
+-- Version 1.5
+--  - 10/06/2015
+--  - Fixes for pad CC. Change MPK to preset 1 on detection.
 -- Version 1.0
 --  - 12/05/2015
 --  - Updated script with Akai default CCs and PCs.

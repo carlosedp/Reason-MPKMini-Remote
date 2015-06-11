@@ -1,7 +1,5 @@
 # Akai MPK mini Remote Support
 
-Version 1.2,   12 May 2015
-
 David Antliff, Pitchblende Ltd., <david@pitchblende.co.nz>  
 Carlos Eduardo, SP/Brazil, <carlosedp@gmail.com>  
 
