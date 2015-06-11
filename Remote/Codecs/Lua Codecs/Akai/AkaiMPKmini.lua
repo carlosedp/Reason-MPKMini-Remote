@@ -21,9 +21,6 @@ g_first_padbutton_index = 11
 -- this is the number of pad buttons - 2 banks x 8 buttons
 g_num_padbuttons = 16
 
--- this is the CC # for the first pad button. This codec assumes the nth button generates this + n - 1.
-g_first_padbutton_cc = 20
-
 --position of first analog control in the items table
 gFirstAnalogIndex = 3
 
@@ -121,7 +118,11 @@ gNumberOfAnalogs = 8
 --converts CC numbers to slider/knob numbers in format: [CC]=Knob
 gAnalogCCLookup = {
     [17]=1,[18]=2,[19]=3,[20]=4,[13]=5,[14]=6,[15]=7,[16]=8 --Knobs 1-8
+}
 
+gPadCCLookup = {
+    [20]=1,[21]=2,[22]=3,[23]=4,[24]=5,[25]=6,[26]=7,[27]=8, --Pads 1-16
+    [28]=9,[29]=10,[30]=11,[31]=12,[35]=13,[36]=14,[37]=15,[38]=16
 }
 
 gAnalogPhysicalState, gAnalogMachineState, gAnalogMismatch, gLastAnalogMoveTime, gSentValueSettleTime = {}, {}, {}, {}, {}
@@ -143,12 +144,15 @@ function remote_process_midi(event) --manual handling of incoming values sent by
     ret=remote.match_midi("B9 yy xx", event) --check for messages in channel 10
     if ret~=nil then
         -- Catch pad events
-        if ret.y >= g_first_padbutton_cc and ret.y <= (g_first_padbutton_cc + g_num_padbuttons) then
+        local padNum = gPadCCLookup[ret.y]
+        if padNum == nil then
+            return false
+        else
             local val = (ret.x ~= 0) and 1 or 0
             -- Make a remote message. item is the index in the control surface item list. 0-1, release-press.
             local msg = {
                 time_stamp = event.time_stamp,
-                item = g_first_padbutton_index + ret.y - g_first_padbutton_cc,
+                item = g_first_padbutton_index + padNum - 1,
                 value = val
             }
             remote.handle_input(msg)
@@ -219,7 +223,6 @@ function remote_prepare_for_use()
         }
 end
 
---[[
 function trace_event(event)
   result = "Event: "
   result = result .. "port " .. event.port .. ", "
@@ -236,4 +239,3 @@ function trace_event(event)
 
   remote.trace(result)
 end
-]]--
