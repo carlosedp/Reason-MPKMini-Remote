@@ -3,7 +3,7 @@
 David Antliff, Pitchblende Ltd., <david@pitchblende.co.nz>  
 Carlos Eduardo, SP/Brazil, <carlosedp@gmail.com>  
 
-**This remote script has been added to Reason 8.3 by Propellerhead Software. Now Reason detects the MPK Mini controller natively.**
+**This remote script has been added to Reason 8.3 by Propellerhead Software. Now Reason detects the MPK Mini controller natively. MPK Mini MK2 is not tested so there is no guarantee that it would work.**
 
 The latest version supports:
 
