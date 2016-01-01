@@ -90,6 +90,18 @@ The available control items are:
 *  Pad Button 1-16
 *  Prog Change 1-16
 
+## Adapt code to add soft takeover on your controller script
+
+The main things one need to change is:
+
+* Add the “gFirstAnalogIndex” variable to the start of the script to provide the index of the first analog control in the “itens” array.
+* Make sure the itens for the analog controls have the 'input="value", output="value", min=0, max=127’ itens for each analog control.
+* Comment out the auto handling for the analog controls since we will handle them manually.
+*  Add the variables for the amount of analog controls and the mapping to the control index (in itens variable) and it`s CCs. Get these values from the commented automapped values.
+* Add the variables and loop to populate the initial values for the controls.
+* Add the part to handle the midi in the "remote_process_midi" function. Check the MIDI channel used for these controls from the commented section.
+* Add the remote_set_state funtion to keep the variables updated.
+
 ## For further details please visit:
 
 https://github.com/carlosedp/Reason-MPKMini-Remote  
